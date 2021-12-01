@@ -10,8 +10,7 @@ def part1(data):
 def part2(data):
     count = 0
     for i in range(len(data)-3):
-        if sum(data[i+1:i+4]) > sum(data[i:i+3]):
-            count += 1
+        count += (sum(data[i+1:i+4]) > sum(data[i:i+3]))
     return count
 
 
