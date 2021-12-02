@@ -1,10 +1,13 @@
-from typing import NamedTuple
 from dataclasses import dataclass
 
 
-class Vector(NamedTuple):
+@dataclass
+class Vector:
     direction: str
     magnitude: int
+
+    def __post_init__(self):
+        self.magnitude = int(self.magnitude)
 
 
 @dataclass
@@ -46,6 +49,6 @@ def part2(data: list[Vector]) -> int:
 
 if __name__ == "__main__":
     with open("input.txt") as f:
-        raw: list[list[str]] = [line.split(" ") for line in f.readlines()]
-        data: list[Vector] = [Vector(d, int(m)) for d, m in raw]
+        data: list[Vector] = [Vector(*line.split(" "))
+                              for line in f.readlines()]
     print(part1(data), part2(data), sep="\n")
