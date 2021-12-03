@@ -10,7 +10,7 @@ def part1(data: set[int]) -> int:
 def part2(data: set[int]) -> int:
     for x in data:
         for num in data:
-            if num != x and (complement := 2020-x-num) in data:
+            if (complement := 2020-x-num) in data:
                 return x * num * complement
 
 
