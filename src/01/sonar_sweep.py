@@ -10,10 +10,13 @@ def part1(data):
     return count
 
 
-def part2_old(data):
+def part2_slice(data):
     count = 0
-    for i in range(len(data)-3):
-        count += (sum(data[i+1:i+4]) > sum(data[i:i+3]))
+    last_sum = sum(data[0:3])
+    for i in range(1, len(data)-2):
+        current_sum = sum(data[i:i+3])
+        count += (current_sum > last_sum)
+        last_sum = current_sum
     return count
 
 
@@ -33,4 +36,4 @@ def part2(data):
 if __name__ == "__main__":
     with open(Path(__file__).absolute().parent / "input.txt") as f:
         data = [int(depth) for depth in f.readlines()]
-    print(part1(data), part2(data), sep="\n")
+    print(part1(data), [part2_slice(data), part2(data)], sep="\n")
