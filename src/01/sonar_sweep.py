@@ -25,7 +25,7 @@ def part2(data):
         window.append(depth)
         window.pop(0)
         current_sum = sum(window)
-        count += (sum(window) > last_sum)
+        count += (current_sum > last_sum)
         last_sum = current_sum
     return count
 
