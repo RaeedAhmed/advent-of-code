@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from pathlib import Path
 
 
 @dataclass
@@ -48,7 +49,7 @@ def part2(data: list[Vector]) -> int:
 
 
 if __name__ == "__main__":
-    with open("input.txt") as f:
+    with open(Path(__file__).absolute().parent / "input.txt") as f:
         data: list[Vector] = [Vector(*line.split(" "))
                               for line in f.readlines()]
     print(part1(data), part2(data), sep="\n")
