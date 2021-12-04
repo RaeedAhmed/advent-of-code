@@ -34,7 +34,7 @@ def part1(filename: str) -> int:
     return product
 
 
-def part2(filename: str):
+def part2(filename: str) -> int:
     draw, boards = load_data(filename)
     counter = {board: {'r': {row: 0 for row in range(
         5)}, 'c': {column: 0 for column in range(5)}} for board in range(len(boards))}
@@ -53,8 +53,9 @@ def part2(filename: str):
                             counter[board]['c'][column] += 1
                             boards[board][row][column] = False
                         if counter[board]['r'][row] == 5 or counter[board]['c'][column] == 5:
-                            winners.append(board)
-                            calls.append(int(call))
+                            if board not in winners:
+                                winners.append(board)
+                                calls.append(int(call))
         return calls[-1], winners[-1]
     call, board = bingo()
     sum_board = sum([sum(row) for row in boards[board]])
