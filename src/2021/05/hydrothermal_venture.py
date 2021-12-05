@@ -1,49 +1,28 @@
-from dataclasses import dataclass
+from collections import Counter
 from pathlib import Path
 
 
-@dataclass
-class Point:
-    x: int
-    y: int
-
-
-class Coordinates:
-    def __init__(self, line: str) -> None:
-        coords = line.split(" -> ")
-        x, y = coords[0].split(",")
-        self.p1 = Point(int(x), int(y))
-        x, y = coords[1].split(",")
-        self.p2 = Point(int(x), int(y))
-
-
 def main(filename: str):
+    counter = Counter()
     with open(Path(__file__).absolute().parent / filename) as f:
-        data = [Coordinates(line.strip()) for line in f.readlines()]
-
-    counter = {(x, y): 0 for x in range(999) for y in range(999)}
-    for c in data:
-        if c.p1.x == c.p2.x:
-            d = c.p2.y - c.p1.y
-            dir = int(d/abs(d))
-            for y in range(c.p1.y, c.p2.y + dir, dir):
-                counter[(c.p1.x, y)] += 1
-        elif c.p1.y == c.p2.y:
-            d = c.p2.x - c.p1.x
-            dir = int(d/abs(d))
-            for x in range(c.p1.x, c.p2.x + dir, dir):
-                counter[(x, c.p1.y)] += 1
-        elif abs(c.p2.x - c.p1.x) == abs(c.p2.y - c.p1.y):
-            xi = c.p2.x - c.p1.x
-            yi = c.p2.y - c.p1.y
-            xd = int(xi/abs(xi))
-            yd = int(yi/abs(yi))
-            for i in range(abs(xi) + 1):
-                counter[(c.p1.x + xd*i, c.p1.y + yd*i)] += 1
-
-    print(len([v for v in counter.values() if v >= 2]))
+        data = [line.strip() for line in f.readlines()]
+    for line in data:
+        c1, c2 = line.split(" -> ")
+        x0, y0 = map(int, c1.split(","))
+        x1, y1 = map(int, c2.split(","))
+        if x0 == x1:
+            counter.update((x0, y)
+                           for y in range(min(y0, y1), max(y0, y1) + 1))
+        elif y0 == y1:
+            counter.update((x, y0)
+                           for x in range(min(x0, x1), max(x0, x1) + 1))
+        elif abs(x1-x0) == abs(y1-y0):
+            xi = 1 if x1 > x0 else -1
+            yi = 1 if y1 > y0 else -1
+            counter.update((x0+i*xi, y0+i*yi) for i in range(abs(x1-x0) + 1))
+    return sum(count > 1 for count in counter.values())
 
 
 if __name__ == "__main__":
-    for filename in ["input.txt"]:
-        main(filename)
+    for filename in ["test.txt", "input.txt"]:
+        print(main(filename))
