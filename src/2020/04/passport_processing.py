@@ -55,7 +55,8 @@ def main(filename: str):
         if not fields:
             if container == required:
                 passports.append(passport)
-            passport, container = {}, set()
+            passport.clear()
+            container.clear()
         else:
             for field in fields:
                 key, value = field.split(":")
