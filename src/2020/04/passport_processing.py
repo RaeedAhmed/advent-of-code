@@ -38,12 +38,7 @@ def ecl(value: str):
 
 
 def pid(value: str):
-    if len(value) == 9:
-        for char in value:
-            if not char.isalnum():
-                return False
-        return True
-    return False
+    return len(value) == 9 and value.isdigit()
 
 
 validate = {'byr': byr, 'iyr': iyr, 'eyr': eyr,
