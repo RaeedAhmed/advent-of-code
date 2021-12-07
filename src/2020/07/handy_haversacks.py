@@ -1,6 +1,5 @@
 from pathlib import Path
 import re
-from collections import deque
 
 search = "shiny gold"
 parent = re.compile(r"(\w+ \w+) bags contain")
@@ -13,19 +12,16 @@ def main(filename: str):
     bags = {}
     for line in data:
         bag = parent.match(line).group(1)
-        items = [(int(match.group(1)), match.group(2))
-                 for match in children.finditer(line)]
+        items = {match.group(2): int(match.group(1)) for match in children.finditer(line)}
         bags[bag] = items
-    queue = deque(bags[search])
-    total = 0
-    while queue:
-        count, item = queue.popleft()
-        total += count
-        queue.extend((count * child_count, child)
-                     for child_count, child in bags[item])
-    print(total)
-
+    cache = {}
+    def count(color):
+        if color not in cache:
+            cache[color] = sum(c * (1+count(name)) for name, c in bags[color].items())
+        return cache[color]
+    
+    print(count(search))
 
 if __name__ == "__main__":
-    for filename in ["test.txt", "input.txt"]:
+    for filename in ["test.txt"]:
         main(filename)
