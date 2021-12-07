@@ -71,7 +71,6 @@ def main():
         instructions[index] = Instruction(a, int(b), index)
     print(part1(instructions))
     print(part2(instructions))
-    test()
 
 
 if __name__ == "__main__":
