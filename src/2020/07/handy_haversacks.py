@@ -1,7 +1,7 @@
 from pathlib import Path
 from collections import deque
 import re
-
+from time import perf_counter
 search = "shiny gold"
 parent = re.compile(r"(\w+ \w+) bags contain")
 children = re.compile(r"(\d+) (\w+ \w+) bags?")
@@ -16,27 +16,10 @@ def main(filename: str):
         items = {match.group(2): int(match.group(1))
                  for match in children.finditer(line)}
         bags[bag] = items
-
-    def find_containers(target):
-        """Part 1 recursive but inefficient"""
-        containers = set()
-        for bag, items in bags.items():
-            if target in items:
-                containers.add(bag)
-                containers.update(find_containers(bag))
-        return containers
-
-    cache = {}
-
-    def count(color):  # Part 2
-        if color not in cache:
-            cache[color] = sum(c * (1+count(name))
-                               for name, c in bags[color].items())
-        return cache[color]
-    print(count(search))
+    tmp = bags.copy()
 
     # Part 1 verbose but more efficient
-    tmp = bags.copy()
+    to_remove = set()
     containers = set()
     match = False
     while True:
@@ -45,19 +28,32 @@ def main(filename: str):
                 containers.add(bag)
                 match = True
             for b in bags[bag]:
-                if b in containers:
+                if b in containers and bag not in containers:
                     containers.add(bag)
                     match = True
             if match:
                 match = False
-                tmp.pop(bag)
-        if bags == tmp:
-            break
+                to_remove.add(bag)
+        if to_remove:
+            for b in to_remove:
+                bags.pop(b)
+            to_remove.clear()
         else:
-            bags = tmp.copy()
+            break
     print(len(containers))
+
+    # Part 2
+    bags = tmp.copy()
+    cache = {}
+
+    def count(color):
+        if color not in cache:
+            cache[color] = sum(c * (1+count(name))
+                               for name, c in bags[color].items())
+        return cache[color]
+    print(count(search))
 
 
 if __name__ == "__main__":
-    for filename in ["input.txt"]:
+    for filename in ["test.txt", "input.txt"]:
         main(filename)
