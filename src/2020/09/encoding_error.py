@@ -18,14 +18,12 @@ def part1(preamble: deque[int], queue: deque[int]) -> int:
 
 
 @profiler
-def part2(data: list[int], invalid: int) -> None:
-    n = 1
-    while True:
+def part2(data: list[int], invalid: int) -> int:
+    for n in range(len(data)-1):
         for i in range(len(data) - n):
             if invalid == sum(data[i:i+n+1]):
                 s = sorted(data[i:i+n+1])
                 return s[0] + s[-1]
-        n += 1
 
 
 def main():
