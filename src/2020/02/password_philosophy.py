@@ -1,37 +1,42 @@
-from pathlib import Path
+from aoc.utils import load_data, profiler
+import re
+from typing import NamedTuple
+from functools import partial
 
 
-class Entry:
-    def __init__(self, raw: str) -> None:
-        count, letter, password = raw.strip().split()
-        self.count: list[int] = [int(num) for num in count.split("-")]
-        self.letter: str = letter[0]
-        self.password: str = password
-
-    def verify_count(self) -> bool:
-        count = 0
-        for letter in self.password:
-            count += (letter == self.letter)
-        if self.count[0] <= count <= self.count[1]:
-            return True
-        return False
-
-    def verify_position(self) -> bool:
-        a, b = self.password[self.count[0]-1], self.password[self.count[1]-1]
-        if (a == self.letter) ^ (b == self.letter):
-            return True
-        return False
+class Entry(NamedTuple):
+    num1: int
+    num2: int
+    char: str
+    word: str
 
 
-def main(filename: str):
-    with open(Path(__file__).absolute().parent / filename) as f:
-        data = f.readlines()
-    p1 = [line for line in data if Entry(line).verify_count()]
-    print(f"p1: {len(p1)}")
-    p2 = [line for line in data if Entry(line).verify_position()]
-    print(f"p2: {len(p2)}")
+def parse_entry(pattern: re.Pattern, entry: str) -> Entry:
+    num1, num2, char, word = pattern.findall(entry)[0]
+    return Entry(int(num1), int(num2), char, word)
+
+
+def verify_count(entry: Entry) -> bool:
+    count = sum(((letter == entry.char) for letter in entry.word))
+    return entry.num1 <= count <= entry.num2
+
+
+def verify_position(entry: Entry) -> bool:
+    return (entry.word[entry.num1 - 1] == entry.char) ^ (
+        entry.word[entry.num2 - 1] == entry.char
+    )
+
+
+@profiler
+def main() -> None:
+    data = load_data(2020, 2, test=False)
+    pattern = re.compile(r"(\d+)-(\d+) ([a-z]): ([a-z]+)")
+    parse = partial(parse_entry, pattern)
+    entries = [parse(entry) for entry in data]
+    part1 = sum((verify_count(entry) for entry in entries))
+    part2 = sum((verify_position(entry) for entry in entries))
+    print(part1, part2, sep="\n")
 
 
 if __name__ == "__main__":
-    for filename in ["test.txt", "input.txt"]:
-        main(filename)
+    main()
