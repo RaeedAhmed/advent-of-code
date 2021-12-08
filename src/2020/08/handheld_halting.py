@@ -1,76 +1,58 @@
 from aoc.utils import load_data, profiler
 from typing import NamedTuple
-from dataclasses import dataclass
 
 
 class Instruction(NamedTuple):
-    code: str
-    num: int
-    index: int
+    opcode: str
+    value: int
 
 
-def run(instruction: Instruction) -> tuple[int, int]:
-    # print(instruction.code, instruction.num)
+Code = dict[int, Instruction]
+Ran = dict[int, int]
+
+
+def execute(instruction: Instruction) -> tuple[int, int]:
     step, acc = 1, 0
-    if instruction.code == "nop":
-        pass
-    elif instruction.code == "acc":
-        acc = instruction.num
-    elif instruction.code == "jmp":
-        step = instruction.num
-    return step, acc
+    if instruction.opcode == "acc":
+        acc = instruction.value
+    elif instruction.opcode == "jmp":
+        step = instruction.value
+    return acc, step
+
+
+def run(code: Code, ran: Ran, index: int, acc: int) -> tuple[int, Ran, int]:
+    while index not in ran and index in code:
+        ran[index] = acc
+        acc_inc, step = execute(code[index])
+        acc += acc_inc
+        index += step
+    return acc, ran, index
 
 
 @profiler
-def part1(instructions: dict[int, Instruction]) -> int:
-    i, acc = 0, 0
-    ran = set()
-    while True:
-        if i in ran:
-            break
-        else:
-            ran.add(i)
-            index, inc = run(instructions[i])
-            i += index
-            acc += inc
+def part1(code: Code):
+    acc = run(code, {}, 0, 0)[0]
     return acc
 
 
 @profiler
-def part2(instructions: dict[int, Instruction]) -> int:
-    to_change = [ins.index for ins in instructions.values()
-                 if ins.code == "jmp"]
-    ran = []
-    causes_loop = set()
-    for ins in to_change:
-        i, acc = 0, 0
-        ran.clear()
-        tmp = instructions.copy()
-        tmp[ins] = Instruction("nop", 0, ins)
-        valid = True
-        while True:
-            if i in ran:
-                causes_loop.append(ran.pop())
-                valid = False
-                break
-            else:
-                ran.add(i)
-                index, inc = run(tmp[i])
-                i += index
-                acc += inc
-                if i not in range(len(tmp)):
-                    break
-        if valid:
-            return acc
+def part2(code: Code):
+    acc, ran, _ = run(code, {}, 0, 0)
+    for line in list(ran.keys())[::-1]:
+        if (code[line].opcode == "nop" and (index := line + code[line].value) not in ran) or \
+                (code[line].opcode == "jmp" and (index := line + 1) not in ran):
+            acc, ran, index = run(code, ran, index, ran[line])
+            if index >= len(code):
+                return acc
 
 
 def main():
-    instructions = {}
+    code: Code = {}
     for index, line in enumerate(load_data(2020, 8, test=False)):
         a, b = line.split()
-        instructions[index] = Instruction(a, int(b), index)
-    print(part1(instructions))
-    print(part2(instructions))
+        code[index] = Instruction(a, int(b))
+    print(part1(code))
+    print(part2(code))
 
 
 if __name__ == "__main__":
