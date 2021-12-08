@@ -1,5 +1,6 @@
-from aoc.utils import load_data, profiler
 import statistics
+
+from aoc.utils import load_data, profiler
 
 
 @profiler
@@ -24,9 +25,9 @@ def part2(data: list[int]):
     data_max = max(data)
     s = {0: 0, 1: 1}
     for i in range(2, data_max):
-        s[i] = s[i-1] + i
+        s[i] = s[i - 1] + i
     for i in range(start, end):
-        current = sum([s[abs(num-i)] for num in data])
+        current = sum([s[abs(num - i)] for num in data])
         if current < minimum:
             minimum = current
     return minimum

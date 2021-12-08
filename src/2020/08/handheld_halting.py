@@ -1,5 +1,6 @@
-from aoc.utils import load_data, profiler
 from typing import NamedTuple
+
+from aoc.utils import load_data, profiler
 
 
 class Instruction(NamedTuple):
@@ -39,8 +40,9 @@ def part1(code: Code):
 def part2(code: Code):
     acc, ran, _ = run(code, {}, 0, 0)
     for line in list(ran.keys())[::-1]:
-        if (code[line].opcode == "nop" and (index := line + code[line].value) not in ran) or \
-                (code[line].opcode == "jmp" and (index := line + 1) not in ran):
+        if (
+            code[line].opcode == "nop" and (index := line + code[line].value) not in ran
+        ) or (code[line].opcode == "jmp" and (index := line + 1) not in ran):
             acc, ran, index = run(code, ran, index, ran[line])
             if index >= len(code):
                 return acc

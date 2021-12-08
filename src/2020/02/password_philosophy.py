@@ -1,7 +1,8 @@
-from aoc.utils import load_data, profiler
 import re
-from typing import NamedTuple
 from functools import partial
+from typing import NamedTuple
+
+from aoc.utils import load_data, profiler
 
 
 class Entry(NamedTuple):

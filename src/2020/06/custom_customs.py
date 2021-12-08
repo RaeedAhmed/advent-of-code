@@ -1,7 +1,8 @@
-from pathlib import Path
+from aoc.utils import load_data, profiler
 
 
-def part1(data: list[str]):
+@profiler
+def part1(data: list[str]) -> None:
     container = set()
     count = 0
     for line in data:
@@ -12,7 +13,8 @@ def part1(data: list[str]):
     print(count)
 
 
-def part2(data: list[str]):
+@profiler
+def part2(data: list[str]) -> None:
     group = []
     count = 0
     clear = False
@@ -28,13 +30,11 @@ def part2(data: list[str]):
     print(count)
 
 
-def main(filename: str):
-    with open(Path(__file__).absolute().parent / filename) as f:
-        data = [line.strip() for line in f.readlines()] + [""]
+def main() -> None:
+    data = load_data(2020, 6, test=False) + [""]
     part1(data)
     part2(data)
 
 
 if __name__ == "__main__":
-    for filename in ["test.txt", "input.txt"]:
-        main(filename)
+    main()

@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from pathlib import Path
+
+from aoc.utils import load_data, profiler
 
 
 @dataclass
@@ -21,6 +22,7 @@ class Position:
         return self.x * self.y
 
 
+@profiler
 def part1(data: list[Vector]) -> int:
     position = Position()
     for vector in data:
@@ -34,6 +36,7 @@ def part1(data: list[Vector]) -> int:
     return position.product()
 
 
+@profiler
 def part2(data: list[Vector]) -> int:
     position = Position()
     for vector in data:
@@ -49,7 +52,7 @@ def part2(data: list[Vector]) -> int:
 
 
 if __name__ == "__main__":
-    with open(Path(__file__).absolute().parent / "input.txt") as f:
-        data: list[Vector] = [Vector(*line.split(" "))
-                              for line in f.readlines()]
+    data: list[Vector] = [
+        Vector(*line.split(" ")) for line in load_data(2021, 2, test=False)
+    ]
     print(part1(data), part2(data), sep="\n")

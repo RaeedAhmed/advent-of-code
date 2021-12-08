@@ -1,7 +1,7 @@
-from pathlib import Path
+from aoc.utils import load_data, profiler
 
-valid_chars = set('abcdef0123456789')
-valid_eye = set(('amb', 'blu', 'brn', 'gry', 'grn', 'hzl', 'oth'))
+valid_chars = set("abcdef0123456789")
+valid_eye = set(("amb", "blu", "brn", "gry", "grn", "hzl", "oth"))
 
 
 def byr(value: str):
@@ -17,15 +17,15 @@ def eyr(value: str):
 
 
 def hgt(value: str):
-    if 'cm' in value:
-        return 150 <= int(value.split('cm')[0]) <= 193
-    elif 'in' in value:
-        return 59 <= int(value.split('in')[0]) <= 76
+    if "cm" in value:
+        return 150 <= int(value.split("cm")[0]) <= 193
+    elif "in" in value:
+        return 59 <= int(value.split("in")[0]) <= 76
     return False
 
 
 def hcl(value: str):
-    if '#' in value:
+    if "#" in value:
         for char in value[1:]:
             if char not in valid_chars:
                 return False
@@ -41,22 +41,27 @@ def pid(value: str):
     return len(value) == 9 and value.isdigit()
 
 
-validate = {'byr': byr, 'iyr': iyr, 'eyr': eyr,
-            'hgt': hgt, 'hcl': hcl, 'ecl': ecl, 'pid': pid}
+validate = {
+    "byr": byr,
+    "iyr": iyr,
+    "eyr": eyr,
+    "hgt": hgt,
+    "hcl": hcl,
+    "ecl": ecl,
+    "pid": pid,
+}
 
 
-def main(filename: str):
-    with open(Path(__file__).absolute().parent / filename) as f:
-        data = [line.strip().split() for line in f.readlines()]
-        data.append([])
+@profiler
+def main() -> None:
+    data = (line.split() for line in load_data(2020, 4, test=False) + [""])
     count, container, passports, passport = 0, set(), [], {}
-    required = {'byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid'}
+    required = {"byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"}
     for fields in data:
         if not fields:
             if container == required:
                 passports.append(passport)
-            passport.clear()
-            container.clear()
+            passport, container = {}, set()
         else:
             for field in fields:
                 key, value = field.split(":")
@@ -76,5 +81,4 @@ def main(filename: str):
 
 
 if __name__ == "__main__":
-    for filename in ["test.txt", "input.txt"]:
-        main(filename)
+    main()

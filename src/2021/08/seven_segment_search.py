@@ -1,5 +1,6 @@
-from aoc.utils import load_data, profiler
 from collections import Counter, deque
+
+from aoc.utils import load_data, profiler
 
 
 def decode(line: list[frozenset]):
@@ -41,7 +42,7 @@ def translate(decodings: dict[frozenset, int], output: list[frozenset]) -> int:
     n = 3
     num = 0
     for code in output:
-        num += decodings[code] * 10**n
+        num += decodings[code] * 10 ** n
         n -= 1
     return num
 
