@@ -58,6 +58,7 @@ def part1(outputs: list[frozenset]) -> int:
 def part2(data) -> int:
     return sum([translate(decode(signal), output) for signal, output in data])
 
+
 def main():
     data = load_data(2021, 8, test=False)
     signals, outputs = [], []
