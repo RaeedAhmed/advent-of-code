@@ -56,11 +56,7 @@ def part1(outputs: list[frozenset]) -> int:
 
 @profiler
 def part2(data) -> int:
-    num = 0
-    for signal, output in data:
-        num += translate(decode(signal), output)
-    return num
-
+    return sum([translate(decode(signal), output) for signal, output in data])
 
 def main():
     data = load_data(2021, 8, test=False)
