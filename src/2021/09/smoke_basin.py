@@ -9,14 +9,10 @@ def part1(data: list[list[int]]) -> int:
     skip = False
     for y in range(my + 1):
         for x in range(mx + 1):
-            if skip:
-                skip = False
-                continue
             point = data[y][x]
             x0 = 10 if x == 0 else data[y][x - 1]
             x1 = 10 if x == mx else data[y][x + 1]
             if point < min(x0, x1):
-                skip = True
                 y0 = 10 if y == 0 else data[y - 1][x]
                 y1 = 10 if y == my else data[y + 1][x]
                 if point < min(y0, y1):
