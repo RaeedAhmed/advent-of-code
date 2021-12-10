@@ -60,7 +60,7 @@ def part2(data: Grid) -> int:
     rules = Rules((-1, len(data[0])), (-1, len(data)), (-1, 9))
     for y in range(my):
         for x in range(mx):
-            if data[y][x] not in [-1, 9]:
+            if data[y][x] not in rules.value:
                 sizes.append(walk((y, x), data, rules))
     return math.prod(sorted(sizes)[-3:])
 
