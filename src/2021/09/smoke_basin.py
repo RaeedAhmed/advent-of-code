@@ -57,7 +57,7 @@ def part2(data: Grid) -> int:
     mx = len(data[0])
     my = len(data)
     sizes = []
-    rules = Rules((-1, len(data[0])), (-1, len(data)), (-1, 9))
+    rules = Rules((-1, mx), (-1, my), (-1, 9))
     for y in range(my):
         for x in range(mx):
             if data[y][x] not in rules.value:
