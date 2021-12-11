@@ -52,7 +52,5 @@ def part2(data: list[Vector]) -> int:
 
 
 if __name__ == "__main__":
-    data: list[Vector] = [
-        Vector(*line.split(" ")) for line in load_data(test=False)
-    ]
+    data: list[Vector] = [Vector(*line.split(" ")) for line in load_data(test=False)]
     print(part1(data), part2(data), sep="\n")
