@@ -40,11 +40,6 @@ def run(grid: Grid, part: int) -> int:
     return total_flashed
 
 
-@profiler
-def part2() -> None:
-    pass
-
-
 def main():
     data = load_data(test=False)
     grid = {
