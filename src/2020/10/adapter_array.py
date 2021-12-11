@@ -34,7 +34,7 @@ def part2(queue: deque[int]) -> int:
 
 
 def main():
-    data = sorted(list(map(int, load_data(2020, 10, test=False))))
+    data = sorted(list(map(int, load_data(test=False))))
     print(part1(deque(data)))
     print(part2(deque(data)))
 

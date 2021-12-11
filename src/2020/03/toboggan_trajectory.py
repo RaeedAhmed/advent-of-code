@@ -11,7 +11,7 @@ class Position:
 
 @profiler
 def main() -> None:
-    data = load_data(2020, 3, test=False)
+    data = load_data(test=False)
     width = len(data[0])
     product = 1
     for x, y in [[1, 1], [3, 1], [5, 1], [7, 1], [1, 2]]:

@@ -6,7 +6,7 @@ from aoc.utils import load_data, profiler
 @profiler
 def main():
     counter = Counter()
-    data = load_data(2021, 5, test=False)
+    data = load_data(test=False)
     for line in data:
         c1, c2 = line.split(" -> ")
         x0, y0 = map(int, c1.split(","))

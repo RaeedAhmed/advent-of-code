@@ -9,7 +9,7 @@ children = re.compile(r"(\d+) (\w+ \w+) bags?")
 
 @profiler
 def main():
-    data = load_data(2020, 7, test=False)
+    data = load_data(test=False)
     bags = {}
     for line in data:
         bag = parent.match(line).group(1)

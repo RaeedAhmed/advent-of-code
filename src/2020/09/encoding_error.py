@@ -28,7 +28,7 @@ def part2(data: list[int], invalid: int) -> int:
 
 
 def main():
-    data = list(map(int, load_data(2020, 9, test=False)))
+    data = list(map(int, load_data(test=False)))
     preamble = deque(data[:PLEN])
     queue = deque(data[PLEN:])
     invalid = part1(preamble, queue)

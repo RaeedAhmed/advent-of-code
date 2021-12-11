@@ -17,7 +17,7 @@ def part2(data: set[int]) -> int:
 
 
 def main() -> None:
-    data = set(map(int, load_data(2020, 1, test=False)))
+    data = set(map(int, load_data(test=False)))
     print(part1(data), part2(data))
 
 

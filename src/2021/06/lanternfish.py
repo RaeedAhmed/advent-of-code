@@ -5,7 +5,7 @@ from aoc.utils import load_data, profiler
 
 @profiler
 def main():
-    data = list(map(int, (load_data(2021, 6, test=False)[0].split(","))))
+    data = list(map(int, (load_data(test=False)[0].split(","))))
     timer = {i: 0 for i in range(9)}
     for time in data:
         timer[time] += 1

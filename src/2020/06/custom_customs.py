@@ -31,7 +31,7 @@ def part2(data: list[str]) -> None:
 
 
 def main() -> None:
-    data = load_data(2020, 6, test=False) + [""]
+    data = load_data(test=False) + [""]
     part1(data)
     part2(data)
 

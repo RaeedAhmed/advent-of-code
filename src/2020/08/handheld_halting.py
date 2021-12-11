@@ -50,7 +50,7 @@ def part2(code: Code):
 
 def main():
     code: Code = {}
-    for index, line in enumerate(load_data(2020, 8, test=False)):
+    for index, line in enumerate(load_data(test=False)):
         a, b = line.split()
         code[index] = Instruction(a, int(b))
     print(part1(code))

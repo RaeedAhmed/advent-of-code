@@ -5,7 +5,7 @@ from aoc.utils import load_data, profiler
 
 @profiler
 def main():
-    data = load_data(2020, 5, test=False)
+    data = load_data(test=False)
     seat_max = 0
     seat_min = 1023
     seats = set()

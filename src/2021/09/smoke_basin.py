@@ -66,7 +66,7 @@ def part2(data: Grid) -> int:
 
 
 def main():
-    data = load_data(2021, 9, test=False)
+    data = load_data(test=False)
     data = [[int(x) for x in line] for line in data]
     print(part1(data))
     print(part2(data))

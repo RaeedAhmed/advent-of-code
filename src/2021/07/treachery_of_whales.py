@@ -34,7 +34,7 @@ def part2(data: list[int]):
 
 
 def main():
-    data = list(map(int, load_data(2021, 7, test=False)[0].split(",")))
+    data = list(map(int, load_data(test=False)[0].split(",")))
     print(part1(data))  # 0.000183s
     print(part2(data))  # 0.000992s
 

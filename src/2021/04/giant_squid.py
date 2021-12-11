@@ -43,7 +43,7 @@ def bingo(draws: Draws, boards: list[Board]) -> list[int]:
 
 
 def main():
-    data = load_data(2021, 4, test=False)
+    data = load_data(test=False)
     draw = [num for num in data.pop(0).split(",")]
     boards: list[Board] = []
     for i in range(1, len(data), 6):

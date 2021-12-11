@@ -33,7 +33,7 @@ def part2(data: list[str], bitlength: int) -> int:
 
 
 def main():
-    data = load_data(2021, 3, test=False)
+    data = load_data(test=False)
     print(part1(data, 12))
     print(part2(data, 12))
 

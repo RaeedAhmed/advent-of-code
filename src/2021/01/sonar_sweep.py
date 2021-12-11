@@ -39,7 +39,7 @@ def part2(data: deque[int]):
 
 
 def main() -> None:
-    data = list(map(int, load_data(2021, 1, test=False)))
+    data = list(map(int, load_data(test=False)))
     print(part1(deque(data)), part2_slice(data), part2(deque(data)), sep="\n")
 
 

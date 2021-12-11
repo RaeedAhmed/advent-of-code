@@ -61,7 +61,7 @@ def part2(data) -> int:
 
 
 def main():
-    data = load_data(2021, 8, test=False)
+    data = load_data(test=False)
     signals, outputs = [], []
     for line in data:
         i, o = line.split(" | ")

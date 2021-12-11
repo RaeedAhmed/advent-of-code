@@ -30,7 +30,7 @@ def verify_position(entry: Entry) -> bool:
 
 @profiler
 def main() -> None:
-    data = load_data(2020, 2, test=False)
+    data = load_data(test=False)
     pattern = re.compile(r"(\d+)-(\d+) ([a-z]): ([a-z]+)")
     parse = partial(parse_entry, pattern)
     entries = [parse(entry) for entry in data]

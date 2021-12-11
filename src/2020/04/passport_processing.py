@@ -54,7 +54,7 @@ validate = {
 
 @profiler
 def main() -> None:
-    data = (line.split() for line in load_data(2020, 4, test=False) + [""])
+    data = (line.split() for line in load_data(test=False) + [""])
     count, container, passports, passport = 0, set(), [], {}
     required = {"byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"}
     for fields in data:
