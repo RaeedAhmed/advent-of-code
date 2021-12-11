@@ -12,7 +12,7 @@ def part2() -> None:
 
 
 def main():
-    data = load_data(2020, 9, test=True)
+    data = load_data(test=True)
     part1(data)
     part2(data)
 
